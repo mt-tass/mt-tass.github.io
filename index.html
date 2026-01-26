@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mustafa - Engineering Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="crt-overlay"></div>
+
+    <div class="console">
+        <div class="screen">
+            <div class="game-header">
+                <div class="game-title">MUSTAFA</div>
+                <div class="game-subtitle">▼ engineering undergrad ▼</div>
+            </div>
+
+            <div class="score-display">
+                <div class="score-item">
+                    <div class="score-label">LEVEL</div>
+                    <div class="score-value">UNDERGRAD</div>
+                </div>
+                <div class="score-item">
+                    <div class="score-label">YEAR</div>
+                    <div class="score-value">II</div>
+                </div>
+            </div>
+
+            <p style="text-align: center; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 2rem;">
+                Building hardware-software bridges through embedded systems , interested in machine learning , control systems , webdev and Competitve Programming
+            </p>
+
+            <div class="section-header">PROJECT.bin</div>
+            <div class="cartridge-shelf" id="projectsContainer"></div>
+
+            <div class="section-header">JOURNEY.exe</div>
+            <div style="text-align: center; font-size: 0.6rem; color: var(--orange); margin-bottom: 0.5rem;">
+                USE DPAD OR ARROW KEYS TO EAT THE MILESTONES (★)
+            </div>
+            <div class="snake-game-area" id="gameArea"></div>
+            
+            <div id="timelineContainer"></div>
+
+            <div class="section-header">SKILLS.bin</div>
+            <div class="skills-grid" id="skillsContainer"></div>
+        </div>
+
+        <div class="controls">
+            <div class="dpad">
+                <div></div><button class="dpad-btn" data-dir="UP">▲</button><div></div>
+                <button class="dpad-btn" data-dir="LEFT">◀</button><div></div><button class="dpad-btn" data-dir="RIGHT">▶</button>
+                <div></div><button class="dpad-btn" data-dir="DOWN">▼</button><div></div>
+            </div>
+            <div style="display:flex; gap:1rem;">
+                <button class="action-btn" id="resetBtn">RESET</button>
+                <button class="action-btn" style="background:var(--accent)" id="infoBtn">INFO</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle"></h2>
+            <p id="modalDesc"></p>
+            <div id="modalTech"></div>
+            <button class="action-btn" id="closeModalBtn">CLOSE</button>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
