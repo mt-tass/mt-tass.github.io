@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>mustafa</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 300;
+  background: #fff;
+  color: #111;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 80px 24px 120px;
+}
+
+/* ── NAV ── */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 80px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: #999;
+}
+.nav-name { color: #111; font-weight: 400; }
+.nav-links { display: flex; gap: 24px; }
+.nav-links a { color: #999; transition: color .15s; }
+.nav-links a:hover { color: #111; text-decoration: none; }
+
+/* ── HERO ── */
+.hero { margin-bottom: 72px; }
+.hero h1 {
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  cursor: default;
+  /* reserve min-height so layout doesn't jump during type effect */
+  min-height: 2.5em;
+}
+.hero-sub {
+  font-size: 14px;
+  color: #666;
+  max-width: 480px;
+  line-height: 1.75;
+}
+.hero-sub a { color: #111; border-bottom: 1px solid #ddd; transition: border-color .15s; }
+.hero-sub a:hover { border-color: #111; text-decoration: none; }
+
+/* ── DIVIDER ── */
+hr { border: none; border-top: 1px solid #eee; margin: 48px 0; }
+
+/* ── SECTION HEADING ── */
+.sec-heading {
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: #111;
+  margin-bottom: 28px;
+  cursor: default;
+  min-height: 1.4em;
+  line-height: 1.2;
+}
+
+/* ── TYPE CURSOR ── */
+.type-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: #7c3aed;
+  vertical-align: text-bottom;
+  margin-left: 1px;
+  animation: blink 0.8s step-end infinite;
+  opacity: 0;
+}
+.typing .type-cursor { opacity: 1; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* typed chars coloured purple */
+.typed-char { color: #7c3aed; font-family: inherit; }
+/* chars that have been "cleared" fade */
+.clear-char  { color: #bbb; }
+
+/* ── ABOUT ── */
+.about-text { color: #444; font-size: 14px; line-height: 1.8; max-width: 520px; }
+.about-text + .about-text { margin-top: 14px; }
+
+/* ── META LIST ── */
+.meta {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 8px 0;
+  font-size: 13px;
+}
+.meta-key { color: #aaa; font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding-top: 2px; }
+.meta-val  { color: #333; }
+
+/* ── PROJECTS ── */
+.proj {
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+.proj:first-child { border-top: 1px solid #eee; }
+.proj-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.proj-name { font-size: 15px; font-weight: 400; color: #111; transition: color .15s; }
+.proj:hover .proj-name { color: #555; }
+.proj-year { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ccc; flex-shrink: 0; }
+.proj-tagline { font-size: 13px; color: #999; margin-top: 3px; }
+.proj-detail { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+.proj.open .proj-detail { max-height: 160px; }
+.proj-detail-inner {
+  padding-top: 14px; font-size: 13px; color: #555; line-height: 1.75;
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;
+}
+.proj-detail-inner p { max-width: 420px; }
+.proj-link {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #aaa;
+  white-space: nowrap; flex-shrink: 0; transition: color .15s;
+  border-bottom: 1px solid #eee; padding-bottom: 1px;
+}
+.proj-link:hover { color: #111; border-color: #111; text-decoration: none; }
+
+/* ── CONTACT CARDS ── */
+.contact-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 4px;
+}
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px 18px;
+  border: 1px solid #eee;
+  text-decoration: none;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+  cursor: pointer;
+}
+.contact-card:hover {
+  border-color: #7c3aed;
+  box-shadow: 0 2px 16px rgba(124,58,237,0.07);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.card-platform {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: #bbb;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.card-name {
+  font-size: 15px;
+  font-weight: 400;
+  color: #111;
+  transition: color .2s;
+}
+.contact-card:hover .card-name { color: #7c3aed; }
+.card-handle {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #999;
+  margin-top: 2px;
+}
+.card-arrow {
+  font-size: 14px;
+  color: #ddd;
+  transition: color .2s, transform .2s;
+  margin-top: auto;
+  padding-top: 12px;
+  align-self: flex-end;
+}
+.contact-card:hover .card-arrow { color: #7c3aed; transform: translate(2px, -2px); }
+
+/* ── FOOTER ── */
+footer {
+  margin-top: 80px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #ccc;
+}
+
+/* ── SECTION FOCUS ── */
+.section-block { transition: opacity 0.3s ease; }
+.wrap.has-focus .section-block { opacity: 0.25; }
+.wrap.has-focus .section-block.focused { opacity: 1; }
+
+/* ── MOBILE ── */
+@media (max-width: 500px) {
+  .contact-cards { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <span class="nav-name">Mustafa Taher</span>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero section-block" data-section="hero">
+    <h1 id="hero-h1"></h1>
+    <p class="hero-sub">
+      Second-year undergrad. I work and study, sometimes.
+    </p>
+  </div>
+
+  <hr id="about"/>
+
+  <!-- ABOUT -->
+  <div class="section-block" data-section="about">
+    <div class="sec-heading" id="about-heading"></div>
+    <p class="about-text">
+      I care about the layer where software meets physics. A bad interrupt handler stalls a motor.
+      A race condition crashes a robot mid-task. That specificity is what draws me to embedded work.
+      Currently focused on real-time ML inference on constrained devices, robotic manipulation,
+      and RTOS internals. I am also a member at SRA.
+    </p>
+  </div>
+
+  <hr id="projects"/>
+
+  <!-- PROJECTS -->
+  <div class="section-block" data-section="projects">
+    <div class="sec-heading" id="projects-heading"></div>
+    <div id="proj-list"></div>
+  </div>
+
+  <hr id="contact"/>
+
+  <!-- CONTACT -->
+  <div class="section-block" data-section="contact">
+    <div class="sec-heading" id="contact-heading"></div>
+    <div class="contact-cards">
+      <a class="contact-card" href="https://github.com/mt-tass" target="_blank" rel="noopener">
+        <div class="card-platform">GitHub</div>
+        <div class="card-name">see my work here</div>
+        <div class="card-handle">github.com/mt-tass</div>
+        <div class="card-arrow">↗</div>
+      </a>
+      <a class="contact-card" href="mailto:mustafataherramp@gmail.com">
+        <div class="card-platform">Email</div>
+        <div class="card-name">write to me here</div>
+        <div class="card-handle">mustafataherramp@gmail.com</div>
+        <div class="card-arrow">↗</div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <span id="yr"></span> · Mumbai, India
+  </footer>
+
+</div>
+
+<script>
+// ── PROJECTS DATA ─────────────────────────────────────────────────────────────
+const PROJECTS = [
+  { name:"Handheld Gaming Console", tagline:"STM32 based , gameboy like handheld console made from absolute scratch", year:"2025",
+    desc:"A Handheld Gaming Console made on STM32F4 chip, with drivers and game logic written from scratch along with a custom PCB designed as well as fabricated ", link:"https://github.com/Paarth-Shirsat/Handheld-Gaming-Console" },
+];
+
+const projList = document.getElementById('proj-list');
+PROJECTS.forEach(p => {
+  const el = document.createElement('div');
+  el.className = 'proj';
+  el.innerHTML = `
+    <div class="proj-row">
+      <span class="proj-name">${p.name}</span>
+      <span class="proj-year">${p.year}</span>
+    </div>
+    <div class="proj-tagline">${p.tagline}</div>
+    <div class="proj-detail"><div class="proj-detail-inner">
+      <p>${p.desc}</p>
+      <a class="proj-link" href="${p.link}" target="_blank" rel="noopener">view ↗</a>
+    </div></div>`;
+  el.addEventListener('click', () => {
+    const was = el.classList.contains('open');
+    document.querySelectorAll('.proj.open').forEach(x => x.classList.remove('open'));
+    if (!was) el.classList.add('open');
+  });
+  projList.appendChild(el);
+});
+
+document.getElementById('yr').textContent = '© ' + new Date().getFullYear();
+
+// ── LIVE-TYPE ENGINE ─────────────────────────────────────────────────────────
+// speed in ms per character
+const TYPE_SPD  = 38;
+const CLEAR_SPD = 22;
+
+function makeTyper(el, fullText) {
+  // Split text into lines preserving <br> for h1
+  // We store the plain text and render spans char by char
+  let tid      = null;
+  let phase    = 'idle';   // 'typing' | 'clearing' | 'idle'
+  let charPos  = 0;
+  const chars  = [...fullText];   // array of chars (handles emoji etc.)
+  const cursor = document.createElement('span');
+  cursor.className = 'type-cursor';
+
+  function render() {
+    // Build: typed portion (purple spans) + cursor + remaining (invisible)
+    el.innerHTML = '';
+    // typed chars — purple
+    chars.slice(0, charPos).forEach(ch => {
+      if (ch === '\n') { el.appendChild(document.createElement('br')); return; }
+      const s = document.createElement('span');
+      s.className = 'typed-char';
+      s.textContent = ch;
+      el.appendChild(s);
+    });
+    // cursor
+    el.appendChild(cursor);
+    // remaining chars — invisible placeholder to hold layout width
+    chars.slice(charPos).forEach(ch => {
+      if (ch === '\n') { el.appendChild(document.createElement('br')); return; }
+      const s = document.createElement('span');
+      s.style.color = 'transparent';
+      s.style.userSelect = 'none';
+      s.textContent = ch;
+      el.appendChild(s);
+    });
+  }
+
+  function renderIdle() {
+    // Show full text in normal colour, no cursor
+    el.innerHTML = '';
+    chars.forEach(ch => {
+      if (ch === '\n') { el.appendChild(document.createElement('br')); return; }
+      el.appendChild(document.createTextNode(ch));
+    });
+  }
+
+  function startTyping() {
+    if (phase === 'typing') return;
+    clearInterval(tid);
+    phase = 'typing';
+    el.classList.add('typing');
+    charPos = 0;
+    render();
+    tid = setInterval(() => {
+      charPos++;
+      render();
+      if (charPos >= chars.length) {
+        clearInterval(tid);
+        phase = 'done';
+      }
+    }, TYPE_SPD);
+  }
+
+  function startClearing() {
+    if (phase === 'clearing') return;
+    clearInterval(tid);
+    phase = 'clearing';
+    // start from wherever we are
+    tid = setInterval(() => {
+      charPos--;
+      if (charPos <= 0) {
+        charPos = 0;
+        clearInterval(tid);
+        phase = 'idle';
+        el.classList.remove('typing');
+        renderIdle();
+        return;
+      }
+      render();
+    }, CLEAR_SPD);
+  }
+
+  // initial idle render
+  renderIdle();
+
+  return { startTyping, startClearing };
+}
+
+// ── REGISTER TYPERS ───────────────────────────────────────────────────────────
+const typers = new Map();
+
+// Hero h1 — text with newline
+typers.set('hero', makeTyper(
+  document.getElementById('hero-h1'),
+  'Engineer, Tinkerer'
+));
+
+typers.set('about', makeTyper(
+  document.getElementById('about-heading'),
+  'about( )'
+));
+
+typers.set('projects', makeTyper(
+  document.getElementById('projects-heading'),
+  'projects( )'
+));
+
+typers.set('contact', makeTyper(
+  document.getElementById('contact-heading'),
+  'contact( )'
+));
+
+// ── SECTION HOVER FOCUS + SCRAMBLE ───────────────────────────────────────────
+const wrap     = document.querySelector('.wrap');
+const sections = document.querySelectorAll('.section-block');
+const CHARS    = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&';
+let scrambleTid = null;
+
+// Walk only real Text nodes that aren't inside the typer heading elements
+// (typers manage those themselves)
+const typerEls = new Set([
+  document.getElementById('hero-h1'),
+  document.getElementById('about-heading'),
+  document.getElementById('projects-heading'),
+  document.getElementById('contact-heading'),
+]);
+
+function getScrambleNodes(root) {
+  const results = [];
+  const walker  = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  let n;
+  while ((n = walker.nextNode())) {
+    // skip blank nodes
+    if (!n.textContent.trim()) continue;
+    // skip nodes inside typer headings
+    let parent = n.parentNode;
+    let skip = false;
+    while (parent) {
+      if (typerEls.has(parent)) { skip = true; break; }
+      parent = parent.parentNode;
+    }
+    if (!skip) results.push(n);
+  }
+  return results;
+}
+
+// ── Snapshot ONCE after everything is rendered ────────────────────────────────
+// We store { node, original } pairs per section.
+// The node reference stays stable; we always write back to node.textContent.
+const snapshot = new Map();
+sections.forEach(sec => {
+  snapshot.set(sec, getScrambleNodes(sec).map(n => ({ node: n, orig: n.textContent })));
+});
+
+function scrambleSec(sec) {
+  const pairs = snapshot.get(sec);
+  if (!pairs) return;
+  pairs.forEach(({ node, orig }) => {
+    let s = '';
+    for (const ch of orig) {
+      if (ch === ' ' || ch === '\n') { s += ch; continue; }
+      s += Math.random() < 0.6 ? CHARS[Math.floor(Math.random() * CHARS.length)] : ch;
+    }
+    node.textContent = s;
+  });
+}
+
+function restoreSec(sec) {
+  const pairs = snapshot.get(sec);
+  if (!pairs) return;
+  pairs.forEach(({ node, orig }) => { node.textContent = orig; });
+}
+
+function startScramble(focused) {
+  clearInterval(scrambleTid);
+  sections.forEach(sec => { if (sec !== focused) scrambleSec(sec); });
+  scrambleTid = setInterval(() => {
+    sections.forEach(sec => { if (sec !== focused) scrambleSec(sec); });
+  }, 80);
+}
+
+function stopScramble() {
+  clearInterval(scrambleTid);
+  scrambleTid = null;
+  sections.forEach(restoreSec);
+}
+
+sections.forEach(sec => {
+  const key   = sec.dataset.section;
+  const typer = typers.get(key);
+
+  sec.addEventListener('mouseenter', () => {
+    wrap.classList.add('has-focus');
+    sections.forEach(s => s.classList.remove('focused'));
+    sec.classList.add('focused');
+    if (typer) typer.startTyping();
+    startScramble(sec);
+  });
+
+  sec.addEventListener('mouseleave', () => {
+    wrap.classList.remove('has-focus');
+    sections.forEach(s => s.classList.remove('focused'));
+    if (typer) typer.startClearing();
+    stopScramble();
+  });
+});
+</script>
+</body>
+</html>
