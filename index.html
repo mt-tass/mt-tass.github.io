@@ -50,7 +50,6 @@ nav {
   line-height: 1.2;
   margin-bottom: 16px;
   cursor: default;
-  /* reserve min-height so layout doesn't jump during type effect */
   min-height: 2.5em;
 }
 .hero-sub {
@@ -61,6 +60,7 @@ nav {
 }
 .hero-sub a { color: #111; border-bottom: 1px solid #ddd; transition: border-color .15s; }
 .hero-sub a:hover { border-color: #111; text-decoration: none; }
+.hero-sub em { font-style: italic; color: #111; }
 
 /* ── DIVIDER ── */
 hr { border: none; border-top: 1px solid #eee; margin: 48px 0; }
@@ -82,7 +82,7 @@ hr { border: none; border-top: 1px solid #eee; margin: 48px 0; }
   display: inline-block;
   width: 2px;
   height: 1em;
-  background: #7c3aed;
+  background: var(--accent, #e8490f);
   vertical-align: text-bottom;
   margin-left: 1px;
   animation: blink 0.8s step-end infinite;
@@ -91,40 +91,71 @@ hr { border: none; border-top: 1px solid #eee; margin: 48px 0; }
 .typing .type-cursor { opacity: 1; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-/* typed chars coloured purple */
-.typed-char { color: #7c3aed; font-family: inherit; }
-/* chars that have been "cleared" fade */
-.clear-char  { color: #bbb; }
+.typed-char { color: var(--accent, #e8490f); font-family: inherit; }
 
 /* ── ABOUT ── */
 .about-text { color: #444; font-size: 14px; line-height: 1.8; max-width: 520px; }
 .about-text + .about-text { margin-top: 14px; }
 
-/* ── META LIST ── */
-.meta {
-  margin-top: 24px;
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 8px 0;
-  font-size: 13px;
+/* ── PROJECTS TOGGLE ── */
+.proj-toggle {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+  border: 1px solid #eee;
+  width: fit-content;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
 }
-.meta-key { color: #aaa; font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding-top: 2px; }
-.meta-val  { color: #333; }
+.toggle-btn {
+  padding: 6px 16px;
+  cursor: pointer;
+  color: #999;
+  background: #fff;
+  border: none;
+  transition: background .15s, color .15s;
+  letter-spacing: .04em;
+  user-select: none;
+}
+.toggle-btn.active {
+  background: var(--accent, #e8490f);
+  color: #fff;
+}
+.toggle-btn:not(.active):hover { color: #111; }
 
 /* ── PROJECTS ── */
 .proj {
   padding: 20px 0;
   border-bottom: 1px solid #eee;
   cursor: pointer;
+  transition: background .15s;
 }
 .proj:first-child { border-top: 1px solid #eee; }
 .proj-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
 .proj-name { font-size: 15px; font-weight: 400; color: #111; transition: color .15s; }
-.proj:hover .proj-name { color: #555; }
-.proj-year { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ccc; flex-shrink: 0; }
+.proj:hover .proj-name { color: var(--accent, #e8490f); }
+.proj-year {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  color: #ccc; flex-shrink: 0;
+}
+.proj-status {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  padding: 2px 8px; border-radius: 2px; flex-shrink: 0;
+  letter-spacing: .06em; text-transform: uppercase;
+}
+.proj-status.ongoing {
+  background: rgba(var(--accent-rgb, 232,73,15), 0.08);
+  color: var(--accent, #e8490f);
+  border: 1px solid rgba(var(--accent-rgb, 232,73,15), 0.2);
+}
+.proj-status.done {
+  background: #f5f5f5;
+  color: #aaa;
+  border: 1px solid #eee;
+}
 .proj-tagline { font-size: 13px; color: #999; margin-top: 3px; }
 .proj-detail { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
-.proj.open .proj-detail { max-height: 160px; }
+.proj.open .proj-detail { max-height: 180px; }
 .proj-detail-inner {
   padding-top: 14px; font-size: 13px; color: #555; line-height: 1.75;
   display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;
@@ -135,12 +166,12 @@ hr { border: none; border-top: 1px solid #eee; margin: 48px 0; }
   white-space: nowrap; flex-shrink: 0; transition: color .15s;
   border-bottom: 1px solid #eee; padding-bottom: 1px;
 }
-.proj-link:hover { color: #111; border-color: #111; text-decoration: none; }
+.proj-link:hover { color: var(--accent, #e8490f); border-color: var(--accent, #e8490f); text-decoration: none; }
 
 /* ── CONTACT CARDS ── */
 .contact-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   margin-top: 4px;
 }
@@ -155,57 +186,47 @@ hr { border: none; border-top: 1px solid #eee; margin: 48px 0; }
   cursor: pointer;
 }
 .contact-card:hover {
-  border-color: #7c3aed;
-  box-shadow: 0 2px 16px rgba(124,58,237,0.07);
+  border-color: var(--accent, #e8490f);
+  box-shadow: 0 2px 20px rgba(var(--accent-rgb, 232,73,15), 0.08);
   transform: translateY(-2px);
   text-decoration: none;
 }
 .card-platform {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  color: #bbb;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+  font-size: 10px; color: #bbb;
+  letter-spacing: .08em; text-transform: uppercase;
 }
-.card-name {
-  font-size: 15px;
-  font-weight: 400;
-  color: #111;
-  transition: color .2s;
-}
-.contact-card:hover .card-name { color: #7c3aed; }
-.card-handle {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  color: #999;
-  margin-top: 2px;
-}
+.card-name { font-size: 15px; font-weight: 400; color: #111; transition: color .2s; }
+.contact-card:hover .card-name { color: var(--accent, #e8490f); }
+.card-handle { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #999; margin-top: 2px; }
 .card-arrow {
-  font-size: 14px;
-  color: #ddd;
+  font-size: 14px; color: #ddd;
   transition: color .2s, transform .2s;
-  margin-top: auto;
-  padding-top: 12px;
-  align-self: flex-end;
+  margin-top: auto; padding-top: 12px; align-self: flex-end;
 }
-.contact-card:hover .card-arrow { color: #7c3aed; transform: translate(2px, -2px); }
+.contact-card:hover .card-arrow { color: var(--accent, #e8490f); transform: translate(2px,-2px); }
 
 /* ── FOOTER ── */
-footer {
-  margin-top: 80px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  color: #ccc;
-}
+footer { margin-top: 80px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ccc; }
 
-/* ── SECTION FOCUS ── */
-.section-block { transition: opacity 0.3s ease; }
-.wrap.has-focus .section-block { opacity: 0.25; }
-.wrap.has-focus .section-block.focused { opacity: 1; }
+/* ── SECTION FOCUS + HIGHLIGHT ── */
+.section-block {
+  padding: 20px 18px;
+  margin: 0 -18px;
+  border-radius: 4px;
+  transition: background .25s ease, opacity .3s ease, box-shadow .25s ease;
+}
+.wrap.has-focus .section-block { opacity: 0.22; }
+.wrap.has-focus .section-block.focused {
+  opacity: 1;
+  background: rgba(var(--accent-rgb, 232,73,15), 0.035);
+  box-shadow: inset 3px 0 0 var(--accent, #e8490f);
+}
 
 /* ── MOBILE ── */
 @media (max-width: 500px) {
   .contact-cards { grid-template-columns: 1fr; }
+  .section-block { padding: 16px 12px; margin: 0 -12px; }
 }
 </style>
 </head>
@@ -225,7 +246,7 @@ footer {
   <div class="hero section-block" data-section="hero">
     <h1 id="hero-h1"></h1>
     <p class="hero-sub">
-      Second-year undergrad. I work and study, sometimes.
+      I'm not Spider-Man, but I'm the only one who actually knows what he's doing.
     </p>
   </div>
 
@@ -247,6 +268,10 @@ footer {
   <!-- PROJECTS -->
   <div class="section-block" data-section="projects">
     <div class="sec-heading" id="projects-heading"></div>
+    <div class="proj-toggle">
+      <div class="toggle-btn active" data-tab="quests">⚔ quests</div>
+      <div class="toggle-btn" data-tab="done">✓ completed</div>
+    </div>
     <div id="proj-list"></div>
   </div>
 
@@ -278,59 +303,121 @@ footer {
 </div>
 
 <script>
-// ── PROJECTS DATA ─────────────────────────────────────────────────────────────
-const PROJECTS = [
-  { name:"Handheld Gaming Console", tagline:"STM32 based , gameboy like handheld console made from absolute scratch", year:"2025",
-    desc:"A Handheld Gaming Console made on STM32F4 chip, with drivers and game logic written from scratch along with a custom PCB designed as well as fabricated ", link:"https://github.com/Paarth-Shirsat/Handheld-Gaming-Console" },
-  { name:"raspOS", tagline:"a baremetal OS build in C for a raspi 3b", year:"2026",
-    desc:"A baremetal OS that runs a snake game and is written in C and has all the basic embedded functionalities ", link:"https://github.com/mt-tass/raspOS" },
-  { name:"Pixels.py", tagline:"my experiments with everything OpenCV", year:"2026",
-    desc:"A collection of projects related to  OpenCV , from Panaromic Stitching (SIFT) to making a Hogwarts Legacy like game with three modes ", link:"https://github.com/mt-tass/Pixels.py" },
+// ── ACCENT COLOURS — cycles through on each section focus ────────────────────
+const ACCENTS = [
+  { hex: '#e8490f', rgb: '232,73,15'  },  // Claude orange
+  { hex: '#16a34a', rgb: '22,163,74'  },  // terminal green
+  { hex: '#dc2626', rgb: '220,38,38'  },  // crimson red
+  { hex: '#2563eb', rgb: '37,99,235'  },  // electric blue
+  { hex: '#9333ea', rgb: '147,51,234' },  // purple
 ];
 
-const projList = document.getElementById('proj-list');
-PROJECTS.forEach(p => {
-  const el = document.createElement('div');
-  el.className = 'proj';
-  el.innerHTML = `
-    <div class="proj-row">
-      <span class="proj-name">${p.name}</span>
-      <span class="proj-year">${p.year}</span>
-    </div>
-    <div class="proj-tagline">${p.tagline}</div>
-    <div class="proj-detail"><div class="proj-detail-inner">
-      <p>${p.desc}</p>
-      <a class="proj-link" href="${p.link}" target="_blank" rel="noopener">view ↗</a>
-    </div></div>`;
-  el.addEventListener('click', () => {
-    const was = el.classList.contains('open');
-    document.querySelectorAll('.proj.open').forEach(x => x.classList.remove('open'));
-    if (!was) el.classList.add('open');
+// assign one accent per section key, stays fixed per section
+const SECTION_ACCENTS = {
+  hero:     ACCENTS[0],
+  about:    ACCENTS[1],
+  projects: ACCENTS[2],
+  contact:  ACCENTS[3],
+};
+
+function setAccent(a) {
+  document.documentElement.style.setProperty('--accent',     a.hex);
+  document.documentElement.style.setProperty('--accent-rgb', a.rgb);
+}
+// default accent on load
+setAccent(ACCENTS[0]);
+
+// ── PROJECTS DATA ─────────────────────────────────────────────────────────────
+const PROJECTS = [
+  {
+    name: "Handheld Gaming Console",
+    tagline: "STM32 based gameboy-like console made from absolute scratch",
+    year: "2025", status: "done",
+    desc: "A Handheld Gaming Console made on STM32F4 chip, with drivers and game logic written from scratch along with a custom PCB designed as well as fabricated.",
+    link: "https://github.com/Paarth-Shirsat/Handheld-Gaming-Console"
+  },
+  {
+    name: "raspOS",
+    tagline: "a baremetal OS built in C for a raspi 3b",
+    year: "2026", status: "done",
+    desc: "A baremetal OS that runs a snake game and is written in C and has all the basic embedded functionalities.",
+    link: "https://github.com/mt-tass/raspOS"
+  },
+  {
+    name: "Pixels.py",
+    tagline: "experiments with everything OpenCV",
+    year: "2026", status: "done",
+    desc: "A collection of projects related to OpenCV, from Panoramic Stitching (SIFT) to making a Hogwarts Legacy like game with three modes.",
+    link: "https://github.com/mt-tass/Pixels.py"
+  },
+];
+
+let activeTab = 'quests';  // 'quests' = ongoing, 'done' = completed
+
+function renderProjects() {
+  const projList = document.getElementById('proj-list');
+  projList.innerHTML = '';
+
+  const filtered = activeTab === 'quests'
+    ? PROJECTS.filter(p => p.status === 'ongoing')
+    : PROJECTS.filter(p => p.status === 'done');
+
+  if (filtered.length === 0) {
+    projList.innerHTML = `<p style="font-size:13px;color:#bbb;padding:20px 0;font-family:'IBM Plex Mono',monospace;">nothing here yet.</p>`;
+    return;
+  }
+
+  filtered.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'proj';
+    el.innerHTML = `
+      <div class="proj-row">
+        <span class="proj-name">${p.name}</span>
+        <span class="proj-status ${p.status === 'ongoing' ? 'ongoing' : 'done'}">${p.status === 'ongoing' ? 'active' : 'shipped'}</span>
+        <span class="proj-year">${p.year}</span>
+      </div>
+      <div class="proj-tagline">${p.tagline}</div>
+      <div class="proj-detail"><div class="proj-detail-inner">
+        <p>${p.desc}</p>
+        <a class="proj-link" href="${p.link}" target="_blank" rel="noopener">view ↗</a>
+      </div></div>`;
+    el.addEventListener('click', () => {
+      const was = el.classList.contains('open');
+      document.querySelectorAll('.proj.open').forEach(x => x.classList.remove('open'));
+      if (!was) el.classList.add('open');
+    });
+    projList.appendChild(el);
   });
-  projList.appendChild(el);
+}
+
+renderProjects();
+
+// toggle buttons
+document.querySelectorAll('.toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeTab = btn.dataset.tab;
+    renderProjects();
+  });
 });
 
 document.getElementById('yr').textContent = '© ' + new Date().getFullYear();
 
-// ── LIVE-TYPE ENGINE ─────────────────────────────────────────────────────────
-// speed in ms per character
+// ── LIVE-TYPE ENGINE ──────────────────────────────────────────────────────────
 const TYPE_SPD  = 38;
 const CLEAR_SPD = 22;
 
 function makeTyper(el, fullText) {
-  // Split text into lines preserving <br> for h1
-  // We store the plain text and render spans char by char
-  let tid      = null;
-  let phase    = 'idle';   // 'typing' | 'clearing' | 'idle'
-  let charPos  = 0;
-  const chars  = [...fullText];   // array of chars (handles emoji etc.)
+  let tid     = null;
+  let phase   = 'idle';
+  let charPos = 0;
+  const chars  = [...fullText];
   const cursor = document.createElement('span');
   cursor.className = 'type-cursor';
 
   function render() {
-    // Build: typed portion (purple spans) + cursor + remaining (invisible)
     el.innerHTML = '';
-    // typed chars — purple
     chars.slice(0, charPos).forEach(ch => {
       if (ch === '\n') { el.appendChild(document.createElement('br')); return; }
       const s = document.createElement('span');
@@ -338,9 +425,7 @@ function makeTyper(el, fullText) {
       s.textContent = ch;
       el.appendChild(s);
     });
-    // cursor
     el.appendChild(cursor);
-    // remaining chars — invisible placeholder to hold layout width
     chars.slice(charPos).forEach(ch => {
       if (ch === '\n') { el.appendChild(document.createElement('br')); return; }
       const s = document.createElement('span');
@@ -352,7 +437,6 @@ function makeTyper(el, fullText) {
   }
 
   function renderIdle() {
-    // Show full text in normal colour, no cursor
     el.innerHTML = '';
     chars.forEach(ch => {
       if (ch === '\n') { el.appendChild(document.createElement('br')); return; }
@@ -370,10 +454,7 @@ function makeTyper(el, fullText) {
     tid = setInterval(() => {
       charPos++;
       render();
-      if (charPos >= chars.length) {
-        clearInterval(tid);
-        phase = 'done';
-      }
+      if (charPos >= chars.length) { clearInterval(tid); phase = 'done'; }
     }, TYPE_SPD);
   }
 
@@ -381,7 +462,6 @@ function makeTyper(el, fullText) {
     if (phase === 'clearing') return;
     clearInterval(tid);
     phase = 'clearing';
-    // start from wherever we are
     tid = setInterval(() => {
       charPos--;
       if (charPos <= 0) {
@@ -396,44 +476,38 @@ function makeTyper(el, fullText) {
     }, CLEAR_SPD);
   }
 
-  // initial idle render
   renderIdle();
-
   return { startTyping, startClearing };
 }
 
 // ── REGISTER TYPERS ───────────────────────────────────────────────────────────
 const typers = new Map();
 
-// Hero h1 — text with newline
+// pop-culture hero tag — Iron Man's JARVIS voice
 typers.set('hero', makeTyper(
   document.getElementById('hero-h1'),
-  'Engineer, Tinkerer'
+  'I am Mustafa'
 ));
 
 typers.set('about', makeTyper(
   document.getElementById('about-heading'),
   'about( )'
 ));
-
 typers.set('projects', makeTyper(
   document.getElementById('projects-heading'),
   'projects( )'
 ));
-
 typers.set('contact', makeTyper(
   document.getElementById('contact-heading'),
   'contact( )'
 ));
 
-// ── SECTION HOVER FOCUS + SCRAMBLE ───────────────────────────────────────────
+// ── SCRAMBLE + FOCUS ──────────────────────────────────────────────────────────
 const wrap     = document.querySelector('.wrap');
 const sections = document.querySelectorAll('.section-block');
 const CHARS    = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&';
 let scrambleTid = null;
 
-// Walk only real Text nodes that aren't inside the typer heading elements
-// (typers manage those themselves)
 const typerEls = new Set([
   document.getElementById('hero-h1'),
   document.getElementById('about-heading'),
@@ -446,11 +520,8 @@ function getScrambleNodes(root) {
   const walker  = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   let n;
   while ((n = walker.nextNode())) {
-    // skip blank nodes
     if (!n.textContent.trim()) continue;
-    // skip nodes inside typer headings
-    let parent = n.parentNode;
-    let skip = false;
+    let parent = n.parentNode, skip = false;
     while (parent) {
       if (typerEls.has(parent)) { skip = true; break; }
       parent = parent.parentNode;
@@ -460,9 +531,7 @@ function getScrambleNodes(root) {
   return results;
 }
 
-// ── Snapshot ONCE after everything is rendered ────────────────────────────────
-// We store { node, original } pairs per section.
-// The node reference stays stable; we always write back to node.textContent.
+// Snapshot ONCE at load
 const snapshot = new Map();
 sections.forEach(sec => {
   snapshot.set(sec, getScrambleNodes(sec).map(n => ({ node: n, orig: n.textContent })));
@@ -504,8 +573,10 @@ function stopScramble() {
 sections.forEach(sec => {
   const key   = sec.dataset.section;
   const typer = typers.get(key);
+  const accent = SECTION_ACCENTS[key] || ACCENTS[0];
 
   sec.addEventListener('mouseenter', () => {
+    setAccent(accent);
     wrap.classList.add('has-focus');
     sections.forEach(s => s.classList.remove('focused'));
     sec.classList.add('focused');
@@ -518,6 +589,8 @@ sections.forEach(sec => {
     sections.forEach(s => s.classList.remove('focused'));
     if (typer) typer.startClearing();
     stopScramble();
+    // reset to default accent
+    setAccent(ACCENTS[0]);
   });
 });
 </script>
